@@ -4,7 +4,16 @@ Welcome to In Practice! I created this app to help music teachers motivate their
 
 Base:
     -Main home page - what a user sees when they are not signed in.
-    -Features available to both students and teachers.
+    -Features available to both students and teachers:
+
+        If not logged in:
+
+            -Login / Register
+            -About Page
+
+        If logged in:
+
+            -Studio-wide forum
 
 Student:
     -Student home page -

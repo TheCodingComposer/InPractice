@@ -1,0 +1,12 @@
+<ul class="navbar">
+    <li>
+        <a href="">Home</a>
+    </li>
+    <li>
+        {% if request.user.is_authenticated %}
+        <a>Logout</a>
+        {% else %}
+        <a href="{% url 'base:login' %}">Login</a>
+        {% endif %}
+    </li>
+</ul>

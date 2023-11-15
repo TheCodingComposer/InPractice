@@ -3,6 +3,11 @@
         <a href="">Home</a>
     </li>
     <li>
+        {% if student_or_teacher %}
+            {% if student_or_teacher == 'student' %}
+                <a href="{%url 'student:practice_entry' %}">Practice</a>
+            {% endif %}
+        {% endif %}
         {% if request.user.is_authenticated %}
         <a href="{% url 'base:logout' %}">Logout</a>
         {% else %}

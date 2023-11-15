@@ -25,4 +25,3 @@ class PracticeEntry(models.Model):
 
     def __str__(self):
         return f'{self.student} practice id {self.pk}'
-    

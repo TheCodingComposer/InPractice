@@ -1,7 +1,9 @@
 from django.db import models
 from django.forms import ModelForm
-from models import PracticeEntry
+from .models import PracticeEntry, Student
+
 
 class PracticeForm(ModelForm):
-    model = PracticeEntry
-    fields = ["time", 'notes']
+    class Meta:
+        model = PracticeEntry
+        fields = ["time", 'notes']

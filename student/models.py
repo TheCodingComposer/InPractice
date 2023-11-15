@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator
 from base.models import User
 from django.contrib.auth import get_user_model
+from django.apps import apps
 
 
 class Student(models.Model):
@@ -12,10 +13,16 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
+
+
 class PracticeEntry(models.Model):
     # Practice time in minutes
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     time = models.IntegerField(validators=[MaxValueValidator(1440)])
     notes = models.TextField(max_length=500)
     created = models.TimeField(auto_now_add=True, editable=False)
     modified = models.TimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.student} practice id {self.pk}'
+    

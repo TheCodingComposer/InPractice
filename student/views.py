@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import PracticeForm
 from base.models import User
-from .models import Student
+from .models import Student, PracticeEntry
 from django.contrib.auth import get_user_model
 
 # NEXT: Decorator to make sure user is student
@@ -24,3 +24,9 @@ def practice_entry(request):
 
     form = PracticeForm()
     return render(request, 'student/practice_entry.html', context={'form': form})
+
+
+# To do - search function, GET - date range
+def practice_history(request):
+    practices = PracticeEntry.objects.all()
+    return render(request, 'student/practice_history.html', context={'practices': practices})

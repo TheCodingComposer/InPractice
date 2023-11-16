@@ -6,6 +6,7 @@
         {% if student_or_teacher %}
             {% if student_or_teacher == 'student' %}
                 <a href="{%url 'student:practice_entry' %}">Practice</a>
+                <a href="{% url 'student:practice_history' %}">History</a>
             {% endif %}
         {% endif %}
         {% if request.user.is_authenticated %}

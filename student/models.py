@@ -23,5 +23,8 @@ class PracticeEntry(models.Model):
     created = models.TimeField(auto_now_add=True, editable=False)
     modified = models.TimeField(auto_now=True)
 
+    class Meta:
+        ordering = ["-created"]
+
     def __str__(self):
         return f'{self.student} practice id {self.pk}'

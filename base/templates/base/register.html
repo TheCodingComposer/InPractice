@@ -1,8 +1,18 @@
 {% extends 'main/main.html' %}
 {% block content %}
+{% if role == 'student' %}
+    <h1>Student</h1>
+{% else %}
+    <h1>Teacher</h1>
+{% endif %}
 <form method="POST" action="">
     {% csrf_token %}
     {{ form.as_p }}
+    {% if role == 'student' %}
+        <input name="teacher" type="text" />
+    {% else %}
+        <p>teacher</p>
+    {% endif %}
     <button type="submit">Register</button>
 </form>
 {% endblock %}

@@ -10,14 +10,16 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=100, null=True)
     email = models.EmailField(null=True)
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            print('saving...')
-            super(User, self).save(*args, **kwargs)
-            print('saved')
-            if self.student_or_teacher == 'student':
-                Student = apps.get_model('student', 'Student')
-                user = self
-                Student.objects.create(user=user, name=self.username)
-        else:
-            super(User, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.pk:
+    #         print('saving...')
+    #         super(User, self).save(*args, **kwargs)
+    #         print('saved')
+    #         if self.student_or_teacher == 'student':
+    #             student = apps.get_model('student', 'Student')
+    #             student.objects.create(user=self, name=self.username)
+    #         else:
+    #             teacher = apps.get_model('teacher', 'Teacher')
+    #             teacher.objects.create(user=self, name=self.username)
+    #     else:
+    #         super(User, self).save(*args, **kwargs)

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
 from base.models import User
+from teacher.models import Teacher
 from django.contrib.auth import get_user_model
 from django.apps import apps
 
@@ -10,6 +11,8 @@ class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, editable=False)
     name = models.CharField(max_length=50, default=user)
     joined = models.TimeField(auto_now_add=True, editable=False)
+
+    teacher = models.OneToOneField(Teacher, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

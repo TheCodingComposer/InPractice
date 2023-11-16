@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.contrib.auth.models import User
+from student.models import Student
+from teacher.models import Teacher
 from .forms import RegistrationForm
 # from django.contrib.auth.forms import UserCreationForm
 
@@ -42,6 +44,7 @@ def loginUser(request):
                 print('error logging in')
             User = get_user_model()
             user_type = User.objects.get(username=user)
+            # UNNECESSARY? just redirect home and let decorator handle
             if user_type.student_or_teacher == 'student':
                 return redirect('student:student_home')
             else:
@@ -52,13 +55,43 @@ def logoutUser(request):
     logout(request)
     return redirect('base:home')
 
-def registerUser(request):
+def registerStudent(request):
+    print('student registration')
     user_form = RegistrationForm()
     if request.method == "POST":
             form = RegistrationForm(request.POST)
-            print(request.POST)
             if form.is_valid():
-                print(form)
+                user = form.save()
+                form.instance.student_or_teacher = 'student'
+
+                # check teacher name / studio password
+                teacher = request.POST.get('teacher')
+                try:
+                    teacher = Teacher.objects.get(name=teacher)
+                except:
+                    messages.error(request, 'TEACHER DOES NOT EXIST')
+                    return render(request, 'base/register.html', {'form': user_form, 'role': 'student'})
+                if teacher is not None:
+                    print('teacher exists!')
+                    student = Student(user=user, name='student', teacher=teacher)
+                    user.save()
+                    student.save()
+                    login(request, user)
+                    return redirect('base:home')
+
+            else:
+                print(form.error_messages)
+                messages.error(request, form.error_messages)
+    return render(request, 'base/register.html', {'form': user_form, 'role': 'student'})
+
+
+def registerTeacher(request):
+    print('teacher registration')
+    user_form = RegistrationForm()
+    if request.method == "POST":
+            form = RegistrationForm(request.POST)
+            if form.is_valid():
+                form.instance.student_or_teacher = 'teacher'
                 user = form.save()
                 user.save()
                 login(request, user)
@@ -66,4 +99,4 @@ def registerUser(request):
             else:
                 print(form.error_messages)
                 messages.error(request, 'Error in registration.')
-    return render(request, 'base/register.html', {'form': user_form})
+    return render(request, 'base/register.html', {'form': user_form, 'role': 'teacher'})
